@@ -1,42 +1,50 @@
-*{
+* {
     margin: 0;
     padding: 0;
     font-family: 'Poppins', sans-serif;
     box-sizing: border-box;
 }
 
+body {
+    background: #222;
+    min-height: 100vh;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 40px 16px 40px;
+}
+
+/* ── Card ─────────────────────────────────────────── */
 .card {
-    width: 90%;
+    width: 100%;
     max-width: 470px;
     background: linear-gradient(135deg, #00feba, #5b548a);
     color: #fff;
-    margin: 100px auto 0;
     border-radius: 20px;
-    padding: 40px 35px;
+    padding: clamp(24px, 6vw, 40px) clamp(20px, 5vw, 35px);
     text-align: center;
-    
-}
-body {
-    background: #222;
 }
 
+/* ── Search bar ───────────────────────────────────── */
 .search {
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 12px;
 }
+
 .search input {
     border: 0;
     outline: 0;
     background: #ebfffc;
     color: #555;
-    padding: 10px 25px;
-    height: 60px;
+    padding: 10px clamp(14px, 4vw, 25px);
+    height: clamp(48px, 10vw, 60px);
     border-radius: 30px;
     flex: 1;
-    margin-right: 16px;
-    font-size: 18px;
+    min-width: 0;          /* prevents flex overflow on tiny screens */
+    font-size: clamp(14px, 3.5vw, 18px);
 }
 
 .search button {
@@ -44,59 +52,107 @@ body {
     outline: none;
     background: #ebfffc;
     border-radius: 50%;
-    width: 60px;
-    height: 60px;
+    width: clamp(48px, 10vw, 60px);
+    height: clamp(48px, 10vw, 60px);
+    flex-shrink: 0;
     cursor: pointer;
-}
-.search .search-icon {
-    width: 30px;
-    height: 30px;
-}
-.weather {
-    margin-top: 30px;
-}
-.weather .weather-icon {
-    width: 100px;
-    height: 100px;
-    margin-bottom: 20px;
-}
-.weather h1 {
-    font-size: 80px;
-    font-weight: 500;
-}
-.weather h2 {
-    font-size: 45px;
-    font-weight: 400;
-    margin-top: -10px;
-}
-.details {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 0 20px;
-    margin-top: 50px;
-}
-.col {
-    display: flex;
-    align-items: center;
-    text-align: left;
+    justify-content: center;
+    transition: background 0.2s;
 }
 
-.col img {
-    width: 50px;
-    margin-right: 10px;
+.search button:hover {
+    background: #d0fff8;
 }
-.humidity, .wind {
-    font-size: 28px;
-    margin-top: -6px;
+
+.search .search-icon {
+    width: clamp(22px, 5vw, 30px);
+    height: clamp(22px, 5vw, 30px);
 }
-.weather {
-    display: none;
-}
+
+/* ── Error ────────────────────────────────────────── */
 .error {
     text-align: left;
     margin-left: 10px;
     font-size: 14px;
     margin-top: 10px;
     display: none;
+}
+
+/* ── Weather block ────────────────────────────────── */
+.weather {
+    margin-top: clamp(20px, 5vw, 30px);
+    display: none;         /* shown by JS */
+}
+
+.weather .weather-icon {
+    width: clamp(70px, 20vw, 100px);
+    height: clamp(70px, 20vw, 100px);
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: clamp(12px, 3vw, 20px);
+}
+
+.weather h1 {
+    font-size: clamp(48px, 14vw, 80px);
+    font-weight: 500;
+    line-height: 1;
+}
+
+.weather h2 {
+    font-size: clamp(26px, 8vw, 45px);
+    font-weight: 400;
+    margin-top: -6px;
+}
+
+/* ── Details row ──────────────────────────────────── */
+.details {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 0 clamp(0px, 3vw, 20px);
+    margin-top: clamp(30px, 7vw, 50px);
+    flex-wrap: wrap;       /* stack on very narrow screens */
+}
+
+.col {
+    display: flex;
+    align-items: center;
+    text-align: left;
+    gap: 8px;
+    flex: 1 1 120px;       /* allow growing but don't collapse below 120 px */
+}
+
+.col img {
+    width: clamp(36px, 8vw, 50px);
+    flex-shrink: 0;
+}
+
+.humidity,
+.wind {
+    font-size: clamp(18px, 5vw, 28px);
+    margin-top: -4px;
+}
+
+.col p:last-child {
+    font-size: clamp(11px, 3vw, 14px);
+    opacity: 0.85;
+}
+
+/* ── Tiny phones (≤ 360 px) ───────────────────────── */
+@media (max-width: 360px) {
+    .details {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 0;
+    }
+}
+
+/* ── Large screens (≥ 768 px) ────────────────────── */
+@media (min-width: 768px) {
+    body {
+        padding-top: 80px;
+    }
 }
